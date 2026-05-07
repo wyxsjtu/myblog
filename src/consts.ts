@@ -7,6 +7,9 @@ export const SITE = {
   school: '上海交通大学',
   // 所在城市/地区（多个用 · 分隔即可）
   location: '北京 · 上海',
+  // 侧边栏头像图片路径（留空则显示「姓名首字母」渐变占位）
+  // 推荐使用 5:7 证件照比例的图片，放在 public/ 下
+  avatarImage: '',
   url: 'https://example.com',
   locale: 'zh-CN',
   // 建站日期（保留：将来可能在「关于」页用到）
@@ -35,7 +38,7 @@ export const SITE = {
     github: 'https://github.com/yourname',
     email: '18588297218@sjtu.edu.cn',
     // 微信号：将在侧边栏图标点击时复制到剪贴板
-    wechat: 'your-wechat-id',
+    wechat: '18801354216',
     twitter: '',
   },
   // 每页文章数
