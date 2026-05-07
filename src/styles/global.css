@@ -27,13 +27,13 @@
   --tag-bg: #eef2ff;
   --tag-text: #4338ca;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.03);
-  --dot: rgb(0 0 0 / 0.10);
-  /* 五个动态光团颜色（浅色模式） */
-  --blob-blue:   rgb(56 132 255 / 0.32);
-  --blob-purple: rgb(192 100 255 / 0.26);
-  --blob-teal:   rgb(20 184 200 / 0.24);
-  --blob-pink:   rgb(244 114 182 / 0.24);
-  --blob-amber:  rgb(245 158 11 / 0.20);
+  --dot: rgb(0 0 0 / 0.09);
+  /* 五个动态光团颜色（浅色模式）：opacity 大幅降低，避免压过文字 */
+  --blob-blue:   rgb(56 132 255 / 0.14);
+  --blob-purple: rgb(192 100 255 / 0.12);
+  --blob-teal:   rgb(20 184 200 / 0.11);
+  --blob-pink:   rgb(244 114 182 / 0.11);
+  --blob-amber:  rgb(245 158 11 / 0.09);
 }
 
 /* ---------- dark theme ---------- */
@@ -55,11 +55,11 @@
   --shadow: 0 1px 3px rgb(0 0 0 / 0.3), 0 1px 2px rgb(0 0 0 / 0.2);
   --dot: rgb(255 255 255 / 0.08);
   /* 深色模式下的光团颜色 */
-  --blob-blue:   rgb(96 165 250 / 0.22);
-  --blob-purple: rgb(192 132 252 / 0.20);
-  --blob-teal:   rgb(34 211 238 / 0.16);
-  --blob-pink:   rgb(244 114 182 / 0.16);
-  --blob-amber:  rgb(251 191 36 / 0.14);
+  --blob-blue:   rgb(96 165 250 / 0.18);
+  --blob-purple: rgb(192 132 252 / 0.16);
+  --blob-teal:   rgb(34 211 238 / 0.13);
+  --blob-pink:   rgb(244 114 182 / 0.13);
+  --blob-amber:  rgb(251 191 36 / 0.11);
 }
 
 /* ---------- reset ---------- */

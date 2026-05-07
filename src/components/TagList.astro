@@ -3,8 +3,8 @@ interface Props {
   tags: string[];
 }
 const { tags } = Astro.props;
-const slugify = (s: string) =>
-  encodeURIComponent(s.toLowerCase().trim().replace(/\s+/g, '-'));
+// 见 src/utils/posts.ts 的 slugifyTag：不要预编码，让磁盘和路由匹配
+const slugify = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-');
 ---
 
 {tags.length > 0 && (

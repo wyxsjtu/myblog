@@ -27,8 +27,13 @@ export async function getAllTags(): Promise<Map<string, Post[]>> {
   return tags;
 }
 
+// 注意：不要在这里 encodeURIComponent。
+// 原因：getStaticPaths 用此结果作为 params，Astro 会按字面值创建磁盘目录。
+// 如果传 "%E6..." 字面值，磁盘上目录名就含百分号；部署时服务器对入站 URL
+// 先解码再找文件，会得到不带百分号的 "技术"，导致 404。
+// 让磁盘存原文（中文 / 英文 slug），浏览器自己会在发请求时编码 URL。
 export function slugifyTag(tag: string): string {
-  return encodeURIComponent(tag.toLowerCase().trim().replace(/\s+/g, '-'));
+  return tag.toLowerCase().trim().replace(/\s+/g, '-');
 }
 
 // ---------- 分类 ----------
@@ -71,5 +76,5 @@ export async function getPostsByCategory(category: string): Promise<Post[]> {
 }
 
 export function slugifyCategory(category: string): string {
-  return encodeURIComponent(category.toLowerCase().trim().replace(/\s+/g, '-'));
+  return category.toLowerCase().trim().replace(/\s+/g, '-');
 }

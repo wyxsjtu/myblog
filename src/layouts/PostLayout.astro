@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import TagList from '../components/TagList.astro';
 import Sidebar from '../components/sidebar/Sidebar.astro';
+import { slugifyCategory } from '../utils/posts';
 
 interface Heading {
   depth: number;
@@ -48,7 +49,7 @@ const {
       <div class="post-meta">
         {category && (
           <a
-            href={`/posts/category/${encodeURIComponent(category.toLowerCase())}/`}
+            href={`/posts/category/${slugifyCategory(category)}/`}
             class:list={['post-category', `cat-${category}`]}
           >{category}</a>
         )}
