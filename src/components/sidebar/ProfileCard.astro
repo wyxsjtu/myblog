@@ -8,10 +8,35 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
 <SidebarCard class="profile">
   <div class="profile-inner">
     <div class="avatar" aria-hidden="true">{initial}</div>
+
     <div class="profile-text">
       <p class="name">{SITE.author}</p>
       <p class="bio muted">{SITE.bio}</p>
     </div>
+
+    {(SITE.school || SITE.location) && (
+      <div class="meta-info">
+        {SITE.school && (
+          <div class="meta-row" title="所在机构">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span>{SITE.school}</span>
+          </div>
+        )}
+        {SITE.location && (
+          <div class="meta-row" title="所在城市">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>{SITE.location}</span>
+          </div>
+        )}
+      </div>
+    )}
+
     <div class="links">
       {SITE.social.github && (
         <a href={SITE.social.github} target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
@@ -19,18 +44,31 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
         </a>
       )}
       {SITE.social.email && (
-        <a href={`mailto:${SITE.social.email}`} aria-label="Email" title="Email">
+        <a href={`mailto:${SITE.social.email}`} aria-label="Email" title={SITE.social.email}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
         </a>
+      )}
+      {SITE.social.wechat && (
+        <button
+          type="button"
+          class="wechat-btn"
+          data-wechat={SITE.social.wechat}
+          aria-label="微信"
+          title={`微信: ${SITE.social.wechat}（点击复制）`}
+        >
+          <svg class="wechat-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.08 1.13 3.92 2.88 5.09L4 18.5l3.06-1.78c.78.18 1.6.28 2.44.28.27 0 .54-.01.81-.04C9.45 16.34 9.27 15.7 9.27 15c0-3.03 2.85-5.5 6.36-5.5.42 0 .82.04 1.21.11C16.5 6.45 13.34 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM22 15c0-2.76-2.69-5-6-5s-6 2.24-6 5 2.69 5 6 5c.65 0 1.27-.08 1.86-.24L20.5 21l-.69-2.04C20.99 18.04 22 16.6 22 15zm-8-1a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm4 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/>
+          </svg>
+          <svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
       )}
       {SITE.social.twitter && (
         <a href={SITE.social.twitter} target="_blank" rel="noopener" aria-label="Twitter / X" title="Twitter / X">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
       )}
-      <a href="/rss.xml" aria-label="RSS" title="RSS">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-      </a>
     </div>
   </div>
 </SidebarCard>
@@ -42,11 +80,11 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     align-items: center;
     text-align: center;
     gap: 0.6rem;
-    padding: 0.25rem 0;
+    padding: 0.4rem 0 0.25rem;
   }
   .avatar {
-    width: 76px;
-    height: 76px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--accent-hover));
     color: white;
@@ -54,28 +92,49 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 2.5rem;
     letter-spacing: -0.02em;
-    box-shadow: 0 4px 14px rgb(0 0 0 / 0.10), var(--shadow);
-    /* 头像下方留点呼吸 */
-    margin-bottom: 0.15rem;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.10), var(--shadow);
+    margin-bottom: 0.25rem;
   }
   .name {
     margin: 0;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
   .bio {
     margin: 0;
     font-size: 0.85rem;
     line-height: 1.55;
   }
+
+  .meta-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.45rem 0;
+    margin: 0.1rem 0 0.2rem;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .meta-row svg { color: var(--text-subtle); flex: 0 0 auto; }
+
   .links {
     display: flex;
     gap: 0.4rem;
     margin-top: 0.3rem;
   }
-  .links a {
+  .links a,
+  .links button {
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -84,12 +143,51 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     justify-content: center;
     color: var(--text-muted);
     border: 1px solid var(--border-subtle);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
     transition: color var(--transition), border-color var(--transition), background var(--transition);
   }
-  .links a:hover {
+  .links a:hover,
+  .links button:hover {
     color: var(--accent);
     border-color: var(--accent);
     background: var(--bg-elevated);
     text-decoration: none;
   }
+
+  /* WeChat 按钮：默认显示 wechat 图标，点击复制后切换为对勾 */
+  .wechat-btn .copied-icon { display: none; }
+  .wechat-btn.copied {
+    color: #16a34a;
+    border-color: #16a34a;
+  }
+  :root[data-theme='dark'] .wechat-btn.copied {
+    color: #4ade80;
+    border-color: #4ade80;
+  }
+  .wechat-btn.copied .wechat-icon { display: none; }
+  .wechat-btn.copied .copied-icon { display: block; }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.wechat-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.wechat;
+      if (!id) return;
+      const originalTitle = btn.getAttribute('title') ?? '';
+      try {
+        await navigator.clipboard.writeText(id);
+        btn.classList.add('copied');
+        btn.setAttribute('title', `已复制: ${id}`);
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.setAttribute('title', originalTitle);
+        }, 1500);
+      } catch (e) {
+        // 剪贴板不可用时回退：用 prompt 让用户自己复制
+        window.prompt('请手动复制微信号：', id);
+      }
+    });
+  });
+</script>

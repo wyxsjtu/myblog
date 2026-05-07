@@ -6,9 +6,9 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container footer-inner">
     <p class="footer-left muted">
-      &copy; {year} {SITE.author} ·
-      <a href="/rss.xml">RSS</a> ·
-      <a href="/sitemap-index.xml">Sitemap</a>
+      &copy; {year} {SITE.author}
+      {SITE.school && <span class="sep"> · </span>}
+      {SITE.school && <span class="affil">{SITE.school}</span>}
     </p>
     <p class="footer-right subtle">
       Built with <a href="https://astro.build/">Astro</a> on Cloudflare Pages
@@ -28,8 +28,8 @@ const year = new Date().getFullYear();
     background: var(--bg-elevated-translucent);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     backdrop-filter: saturate(180%) blur(12px);
-    padding: 0.45rem 0;
-    font-size: 0.78rem;
+    padding: 0.75rem 0;
+    font-size: 0.86rem;
   }
   .footer-inner {
     display: flex;
@@ -41,9 +41,12 @@ const year = new Date().getFullYear();
   .footer-inner a { color: inherit; }
   .footer-inner a:hover { color: var(--accent); }
 
-  /* 窄屏只保留左侧版权信息，避免一行塞不下 */
+  .sep { color: var(--text-subtle); }
+  .affil { color: var(--text-muted); }
+
+  /* 窄屏只保留左侧版权信息 */
   @media (max-width: 640px) {
     .footer-right { display: none; }
-    .footer-left { font-size: 0.75rem; }
+    .footer-left { font-size: 0.82rem; }
   }
 </style>

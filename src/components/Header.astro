@@ -61,21 +61,38 @@ const isActive = (href: string) => {
     gap: 0.25rem;
   }
   .nav-link {
-    padding: 0.4rem 0.75rem;
+    position: relative;
+    padding: 0.45rem 0.85rem;
     color: var(--text-muted);
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 0.95rem;
     text-decoration: none;
-    transition: background var(--transition), color var(--transition);
+    transition: color 180ms ease, background 180ms ease,
+                transform 180ms ease, box-shadow 180ms ease;
   }
   .nav-link:hover {
-    color: var(--text);
-    background: var(--bg-elevated);
+    color: var(--accent);
+    background: var(--tag-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
     text-decoration: none;
   }
   .nav-link.active {
-    color: var(--text);
+    color: var(--accent);
+    background: var(--tag-bg);
     font-weight: 600;
+  }
+  /* 当前页指示器：底部小横线 */
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: translateX(-50%);
   }
 
   .header-actions {

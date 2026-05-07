@@ -6,7 +6,7 @@ const tagMap = await getAllTags();
 const tags = [...tagMap.entries()]
   .map(([name, posts]) => ({ name, count: posts.length }))
   .sort((a, b) => b.count - a.count)
-  .slice(0, 8);
+  .slice(0, 3);
 ---
 
 {tags.length > 0 && (
