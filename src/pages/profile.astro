@@ -6,29 +6,31 @@ const pdf = SITE.resumePdf;
 const img = SITE.resumeImage;
 ---
 
-<BaseLayout title="简介" description={`${SITE.author} 的简历与个人简介`}>
-  <header class="profile-header">
-    <h1>个人简介</h1>
-    <p class="muted">{SITE.bio}</p>
-  </header>
+<BaseLayout title="简介" description={`${SITE.author} 的简历与个人简介`} wide={true}>
+  <div class="profile-text-block">
+    <header class="profile-header">
+      <h1>个人简介</h1>
+      <p class="muted">{SITE.bio}</p>
+    </header>
 
-  <div class="resume-actions">
-    <a href={pdf} download class="btn btn-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      下载 PDF 简历
-    </a>
-    <a href={pdf} target="_blank" rel="noopener" class="btn btn-ghost">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
-      新窗口打开
-    </a>
+    <div class="resume-actions">
+      <a href={pdf} download class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        下载 PDF 简历
+      </a>
+      <a href={pdf} target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        新窗口打开
+      </a>
+    </div>
   </div>
 
   {/*
@@ -65,6 +67,10 @@ const img = SITE.resumeImage;
 </BaseLayout>
 
 <style>
+  /* 标题与简介保持窄宽（更适合阅读），左对齐 */
+  .profile-text-block {
+    max-width: 720px;
+  }
   .profile-header {
     margin-bottom: 1.5rem;
   }
@@ -114,16 +120,19 @@ const img = SITE.resumeImage;
     text-decoration: none;
   }
 
+  /* 简历预览：占满 wide 容器宽度（最大 ~1080px）以提升阅读尺寸
+     高度上限调高到 1400px，A4 比例下基本能完整显示一页 */
   .resume-frame {
+    width: 100%;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
     background: var(--bg-elevated);
-    min-height: clamp(560px, 80vh, 1000px);
+    min-height: clamp(700px, 85vh, 1400px);
   }
   .resume-frame > object {
     width: 100%;
-    height: clamp(560px, 80vh, 1000px);
+    height: clamp(700px, 85vh, 1400px);
     display: block;
     border: 0;
   }

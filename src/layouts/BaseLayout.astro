@@ -13,6 +13,9 @@ interface Props {
   publishDate?: Date;
   // 是否启用侧边栏布局（默认 false）
   withSidebar?: boolean;
+  // 是否使用更宽的容器（max-width 1080px，默认 720px）
+  // 适合需要更大展示区域的页面（如简历预览）
+  wide?: boolean;
 }
 
 const {
@@ -22,6 +25,7 @@ const {
   type = 'website',
   publishDate,
   withSidebar = false,
+  wide = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
@@ -88,7 +92,7 @@ const ogImage = image ? new URL(image, Astro.site ?? SITE.url).toString() : unde
     <BackgroundBlobs />
     <Header />
     <main>
-      <div class:list={['container', { wide: withSidebar }]}>
+      <div class:list={['container', { wide: withSidebar || wide }]}>
         {withSidebar ? (
           <div class="layout-grid">
             <div class="layout-main"><slot /></div>
