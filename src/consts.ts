@@ -9,7 +9,7 @@ export const SITE = {
   location: '北京 · 上海',
   // 侧边栏头像图片路径（留空则显示「姓名首字母」渐变占位）
   // 推荐使用 5:7 证件照比例的图片，放在 public/ 下
-  avatarImage: '',
+  avatarImage: '/avatar.jpg',
   url: 'https://example.com',
   locale: 'zh-CN',
   // 建站日期（保留：将来可能在「关于」页用到）
