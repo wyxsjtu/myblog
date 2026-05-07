@@ -4,12 +4,6 @@ import { SITE } from '../../consts';
 import { getAllPosts, getAllTags } from '../../utils/posts';
 
 const [posts, tags] = await Promise.all([getAllPosts(), getAllTags()]);
-const launch = new Date(SITE.launchDate);
-const now = new Date();
-const days = Math.max(
-  1,
-  Math.floor((now.getTime() - launch.getTime()) / (1000 * 60 * 60 * 24)),
-);
 const useBusuanzi = SITE.sidebar.busuanzi;
 ---
 
@@ -23,19 +17,21 @@ const useBusuanzi = SITE.sidebar.busuanzi;
       <span class="label muted">标签</span>
       <span class="value">{tags.size}</span>
     </li>
-    <li>
-      <span class="label muted">运行</span>
-      <span class="value">{days} <span class="unit">天</span></span>
-    </li>
     {useBusuanzi && (
       <>
         <li>
-          <span class="label muted">访问</span>
-          <span class="value"><span id="busuanzi_value_site_uv">·</span> <span class="unit">人</span></span>
+          <span class="label muted">浏览</span>
+          <span class="value">
+            <span id="busuanzi_value_site_pv" class="busuanzi-value">·</span>
+            <span class="unit">次</span>
+          </span>
         </li>
         <li>
-          <span class="label muted">浏览</span>
-          <span class="value"><span id="busuanzi_value_site_pv">·</span> <span class="unit">次</span></span>
+          <span class="label muted">访客</span>
+          <span class="value">
+            <span id="busuanzi_value_site_uv" class="busuanzi-value">·</span>
+            <span class="unit">人</span>
+          </span>
         </li>
       </>
     )}
@@ -75,6 +71,10 @@ const useBusuanzi = SITE.sidebar.busuanzi;
     font-weight: 600;
     color: var(--text);
     margin-top: 0.1rem;
+  }
+  .busuanzi-value {
+    display: inline-block;
+    min-width: 1.5em;
   }
   .unit {
     font-size: 0.7rem;

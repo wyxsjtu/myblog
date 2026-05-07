@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PaperCard from '../../components/PaperCard.astro';
+import {
+  getAllPapers,
+  groupPapersByYear,
+  countByCCF,
+} from '../../utils/research';
+
+const papers = await getAllPapers();
+const grouped = groupPapersByYear(papers);
+const counts = countByCCF(papers);
+---
+
+<BaseLayout title="研究成果" description="发表的论文与研究工作">
+  <header class="research-header">
+    <h1>研究成果</h1>
+    <p class="muted">已发表 {papers.length} 篇研究工作</p>
+
+    {papers.length > 0 && (
+      <div class="ccf-summary">
+        {(['A', 'B', 'C', 'SCI'] as const).map((lvl) =>
+          counts[lvl] > 0 && (
+            <span class="ccf-summary-item">
+              <strong>{counts[lvl]}</strong>
+              <span class="ccf-summary-label muted">CCF-{lvl}</span>
+            </span>
+          )
+        )}
+      </div>
+    )}
+  </header>
+
+  {papers.length === 0 ? (
+    <p class="muted">暂未添加研究成果。</p>
+  ) : (
+    <div class="research-list">
+      {grouped.map(({ year, papers }) => (
+        <section class="year-section">
+          <h2 class="year-title">{year}</h2>
+          <div class="year-papers">
+            {papers.map((p) => (
+              <PaperCard
+                title={p.data.title}
+                authors={p.data.authors}
+                venue={p.data.venue}
+                year={p.data.year}
+                ccf={p.data.ccf}
+                type={p.data.type}
+                abstract={p.data.abstract}
+                links={p.data.links}
+                featured={p.data.featured}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  )}
+
+  <p class="muted note">
+    论文 PDF 与 BibTeX 文件可放在 <code>public/papers/</code> 下，并在论文 frontmatter 的
+    <code>links</code> 中引用相对路径。
+  </p>
+</BaseLayout>
+
+<style>
+  .research-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .research-header h1 {
+    margin: 0 0 0.4rem;
+  }
+  .research-header > p {
+    margin: 0;
+  }
+
+  .ccf-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-elevated-translucent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .ccf-summary-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .ccf-summary-item strong {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .ccf-summary-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .research-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .year-section {
+    /* 年份左侧标题，右侧论文列表（大屏） */
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .year-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    position: sticky;
+    top: 80px;
+    letter-spacing: -0.01em;
+  }
+  .year-papers {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+  @media (max-width: 700px) {
+    .year-section {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .year-title {
+      position: static;
+      font-size: 1.2rem;
+    }
+  }
+
+  .note {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border);
+  }
+  .note code {
+    font-size: 0.85em;
+  }
+</style>

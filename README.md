@@ -47,11 +47,52 @@ cover: /images/cover.jpg     # 可选，封面图
 ---
 ```
 
+## 添加研究成果
+
+在 `src/content/research/` 下新建 `.md` 文件（文件名仅作标识，不会出现在 URL）。所有论文统一展示在 `/research/` 页面，按年份分组、显示 CCF 评级。
+
+frontmatter 字段：
+
+```yaml
+---
+title: 论文标题（必填）
+authors: "Zhang San, **本人**, Li Si"   # 用 **xxx** 加粗自己的名字
+venue: ICML 2026                       # 会议/期刊全称
+year: 2026                             # 必填
+ccf: A                                 # A | B | C | SCI | None
+type: conference                       # conference | journal | preprint | patent | other
+abstract: 一段简短摘要（2-4 句）         # 可选
+links:                                 # 全部可选，按需填写
+  pdf: /papers/xxx.pdf                 # 放在 public/papers/ 下
+  arxiv: https://arxiv.org/abs/xxx
+  doi: https://doi.org/xxx
+  code: https://github.com/...
+  project: https://example.com/project
+  slides: /papers/xxx-slides.pdf
+  video: https://youtu.be/xxx
+  bibtex: /papers/xxx.bib
+featured: true                         # 可选，true 时论文卡片高亮显示「代表作」
+draft: false                           # 可选，true 则仅在 dev 显示
+---
+```
+
+PDF、Slides、BibTeX 等本地文件统一放在 `public/papers/` 目录下，前端通过相对路径 `/papers/xxx.pdf` 访问。
+
+## 简历 PDF
+
+把简历 PDF 放在 `public/resume.pdf`，简介页（`/profile/`）会自动嵌入显示并提供下载链接。如需修改路径，编辑 [src/consts.ts](src/consts.ts) 的 `SITE.resumePdf`。
+
 ## 自定义站点信息
 
-编辑 [src/consts.ts](src/consts.ts)：标题、描述、作者、社交链接、导航、每页文章数。
+编辑 [src/consts.ts](src/consts.ts)：标题、描述、作者、社交链接、导航、简历路径、侧边栏 widgets 开关。
 
 修改站点 URL：编辑 [astro.config.mjs](astro.config.mjs) 的 `site` 字段，并同步更新 [public/robots.txt](public/robots.txt) 中的 sitemap 地址。
+
+## 访问统计（不蒜子）
+
+侧边栏「站点」卡片的「浏览」「访客」依赖第三方匿名统计服务 [busuanzi](https://busuanzi.ibruce.info/)，无需注册。
+
+如需关闭，将 [src/consts.ts](src/consts.ts) 中 `SITE.sidebar.busuanzi` 改为 `false`。
 
 ## 部署到 Cloudflare Pages
 
@@ -118,9 +159,13 @@ myblog/
     │   └── tags/
     │       ├── index.astro         # 标签云
     │       └── [tag].astro         # 单个标签
-    ├── content/posts/      # 博文 Markdown
+    ├── content/
+    │   ├── posts/          # 博文 Markdown
+    │   └── research/       # 研究成果元数据 Markdown
     ├── styles/global.css   # 全局样式 + 主题变量
-    └── utils/posts.ts      # 文章/标签工具
+    └── utils/
+        ├── posts.ts        # 文章/标签工具
+        └── research.ts     # 论文/分组工具
 ```
 
 ## 许可
