@@ -8,6 +8,9 @@ const posts = defineCollection({
     description: z.string().optional(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
+    // 分类：单选，例如「技术」「生活」「思考」（在 src/consts.ts 里维护可选项）
+    // 不在 SITE.categories 中的分类会归入「其他」
+    category: z.string().default('技术'),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     cover: z.string().optional(),

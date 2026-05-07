@@ -2,6 +2,7 @@
 title: 在 Astro 中使用代码高亮
 description: 演示 Markdown 中的代码块如何渲染，以及深色模式适配。
 pubDate: 2026-05-06
+category: 技术
 tags:
   - Astro
   - 前端

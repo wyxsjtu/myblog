@@ -2,11 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
 import Sidebar from '../../components/sidebar/Sidebar.astro';
 import { SITE } from '../../consts';
-import { getAllPosts } from '../../utils/posts';
+import { getAllPosts, getAllCategories } from '../../utils/posts';
 
 const posts = await getAllPosts();
+const categories = await getAllCategories();
 const pageSize = SITE.postsPerPage;
 const data = posts.slice(0, pageSize);
 const lastPage = Math.max(1, Math.ceil(posts.length / pageSize));
@@ -16,6 +18,8 @@ const nextUrl = posts.length > pageSize ? '/posts/page/2/' : undefined;
 <BaseLayout title="文章" description="所有文章" withSidebar={true}>
   <h1>文章</h1>
   <p class="muted">共 {posts.length} 篇</p>
+
+  <CategoryFilter categories={categories} totalCount={posts.length} />
 
   <div class="post-list">
     {data.map((post) => (

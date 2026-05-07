@@ -41,11 +41,14 @@ title: 文章标题（必填）
 description: 一句话摘要（可选，影响首页/SEO）
 pubDate: 2026-05-07          # 必填
 updatedDate: 2026-05-08      # 可选
+category: 技术                # 可选，默认「技术」；可选值见 src/consts.ts 的 SITE.categories
 tags: [标签一, 标签二]         # 可选
 draft: false                 # 可选，true 则仅在 dev 显示
 cover: /images/cover.jpg     # 可选，封面图
 ---
 ```
+
+文章分类决定文章列表页（`/posts/`）顶部的筛选条目。可在 [src/consts.ts](src/consts.ts) 的 `SITE.categories` 中调整顺序、增删分类。category 不在该列表中的文章会归入「其他」。
 
 ## 添加研究成果
 
@@ -78,9 +81,26 @@ draft: false                           # 可选，true 则仅在 dev 显示
 
 PDF、Slides、BibTeX 等本地文件统一放在 `public/papers/` 目录下，前端通过相对路径 `/papers/xxx.pdf` 访问。
 
-## 简历 PDF
+## 简历
 
-把简历 PDF 放在 `public/resume.pdf`，简介页（`/profile/`）会自动嵌入显示并提供下载链接。如需修改路径，编辑 [src/consts.ts](src/consts.ts) 的 `SITE.resumePdf`。
+简介页 `/profile/` 的展示策略：
+
+1. 优先用 `<object>` 内嵌 [public/resume.pdf](public/) 的 PDF
+2. 浏览器无法内嵌（手机、未安装 PDF 插件等）时，自动 fallback 显示 [public/resume.png](public/) 简历图片（建议是 PDF 第一页的截图，宽度 1200-1600px）
+3. 图片也加载失败时，再降级为下载链接提示
+
+无论展示状态如何，「下载 PDF 简历」按钮始终可用。
+
+修改路径：编辑 [src/consts.ts](src/consts.ts) 的 `SITE.resumePdf` / `SITE.resumeImage`。
+
+## 搜索
+
+顶栏的搜索按钮（或快捷键 `/` / `Cmd+K` / `Ctrl+K`）打开搜索框，可同时搜索文章和研究成果。
+
+实现细节：
+- 构建时生成 [public/search-index.json](http://localhost/search-index.json)，包含所有文章和论文的标题、摘要、内容片段、分类、标签等
+- 客户端首次打开搜索框时拉取索引，做大小写不敏感的多关键词匹配，标题命中权重高于内容
+- ↑/↓ 选中、Enter 打开、Esc 关闭
 
 ## 自定义站点信息
 

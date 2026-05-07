@@ -27,9 +27,13 @@
   --tag-bg: #eef2ff;
   --tag-text: #4338ca;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.03);
-  --dot: rgb(0 0 0 / 0.07);
-  --halo-1: rgb(37 99 235 / 0.10);
-  --halo-2: rgb(168 85 247 / 0.06);
+  /* 点阵颜色稍微加深一点，浅色背景上更可见 */
+  --dot: rgb(0 0 0 / 0.10);
+  /* 双色光晕：左蓝右紫，opacity 大幅提升 */
+  --halo-1: rgb(56 132 255 / 0.30);
+  --halo-2: rgb(192 100 255 / 0.22);
+  /* 第二组光晕：底部冷色，制造深度感 */
+  --halo-3: rgb(20 184 166 / 0.16);
 }
 
 /* ---------- dark theme ---------- */
@@ -49,9 +53,10 @@
   --tag-bg: #1e1b4b;
   --tag-text: #c7d2fe;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.3), 0 1px 2px rgb(0 0 0 / 0.2);
-  --dot: rgb(255 255 255 / 0.07);
-  --halo-1: rgb(96 165 250 / 0.12);
-  --halo-2: rgb(192 132 252 / 0.08);
+  --dot: rgb(255 255 255 / 0.08);
+  --halo-1: rgb(96 165 250 / 0.22);
+  --halo-2: rgb(192 132 252 / 0.18);
+  --halo-3: rgb(34 211 238 / 0.10);
 }
 
 /* ---------- reset ---------- */
@@ -87,18 +92,32 @@ body {
 body::before {
   content: '';
   position: fixed;
-  top: -360px;
+  top: -200px;
   left: 50%;
-  width: min(1400px, 140vw);
-  height: 720px;
+  width: min(1600px, 160vw);
+  height: 800px;
   transform: translateX(-50%);
   background:
-    radial-gradient(60% 50% at 35% 50%, var(--halo-1), transparent 70%),
-    radial-gradient(50% 40% at 70% 50%, var(--halo-2), transparent 70%);
-  filter: blur(40px);
+    radial-gradient(50% 50% at 25% 40%, var(--halo-1), transparent 65%),
+    radial-gradient(50% 50% at 75% 45%, var(--halo-2), transparent 65%);
+  filter: blur(28px);
   pointer-events: none;
   z-index: -1;
-  opacity: 0.9;
+  transition: opacity var(--transition);
+}
+
+/* 底部冷色光晕：制造纵深，避免长页面下方过于单调 */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -240px;
+  right: -10%;
+  width: min(900px, 90vw);
+  height: 600px;
+  background: radial-gradient(50% 50% at 50% 50%, var(--halo-3), transparent 70%);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: -1;
   transition: opacity var(--transition);
 }
 

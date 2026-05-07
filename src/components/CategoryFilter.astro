@@ -1,0 +1,71 @@
+---
+import { slugifyCategory } from '../utils/posts';
+
+interface Props {
+  categories: Array<{ name: string; count: number }>;
+  active?: string; // 当前激活分类，未传则「全部」激活
+  totalCount: number;
+}
+const { categories, active, totalCount } = Astro.props;
+---
+
+<nav class="category-filter" aria-label="文章分类筛选">
+  <a
+    href="/posts/"
+    class:list={['cat-pill', { active: !active }]}
+  >
+    <span>全部</span>
+    <span class="cat-count">{totalCount}</span>
+  </a>
+  {categories.map((cat) => (
+    <a
+      href={`/posts/category/${slugifyCategory(cat.name)}/`}
+      class:list={['cat-pill', { active: active === cat.name }]}
+    >
+      <span>{cat.name}</span>
+      <span class="cat-count">{cat.count}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.25rem 0 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-elevated-translucent);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+  }
+  .cat-pill:hover {
+    color: var(--text);
+    border-color: var(--text-subtle);
+    text-decoration: none;
+  }
+  .cat-pill.active {
+    color: white;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .cat-pill.active .cat-count {
+    color: rgb(255 255 255 / 0.85);
+  }
+  .cat-count {
+    color: var(--text-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+</style>

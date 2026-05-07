@@ -2,6 +2,7 @@
 title: 关于写作这件事
 description: 为什么要写博客，以及如何坚持下去。
 pubDate: 2026-04-20
+category: 思考
 tags:
   - 杂谈
   - 思考

@@ -2,6 +2,7 @@
 title: 你好，世界
 description: 博客的第一篇文章，介绍这个站点的由来与构想。
 pubDate: 2026-05-07
+category: 生活
 tags:
   - 杂谈
   - 站点

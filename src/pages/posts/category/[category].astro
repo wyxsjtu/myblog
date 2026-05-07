@@ -1,0 +1,64 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+import Sidebar from '../../../components/sidebar/Sidebar.astro';
+import {
+  getAllPosts,
+  getAllCategories,
+  getPostsByCategory,
+  slugifyCategory,
+  type Post,
+} from '../../../utils/posts';
+
+export const getStaticPaths = (async () => {
+  const categories = await getAllCategories();
+  return Promise.all(
+    categories.map(async (cat) => ({
+      params: { category: slugifyCategory(cat.name) },
+      props: {
+        categoryName: cat.name,
+        posts: await getPostsByCategory(cat.name),
+      },
+    })),
+  );
+}) satisfies GetStaticPaths;
+
+interface Props {
+  categoryName: string;
+  posts: Post[];
+}
+const { categoryName, posts } = Astro.props;
+const categories = await getAllCategories();
+const allPosts = await getAllPosts();
+---
+
+<BaseLayout
+  title={`${categoryName} · 文章`}
+  description={`分类「${categoryName}」下的所有文章`}
+  withSidebar={true}
+>
+  <h1>文章</h1>
+  <p class="muted">分类「{categoryName}」共 {posts.length} 篇</p>
+
+  <CategoryFilter
+    categories={categories}
+    active={categoryName}
+    totalCount={allPosts.length}
+  />
+
+  <div class="post-list">
+    {posts.map((post) => (
+      <PostCard
+        href={`/posts/${post.id}/`}
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        tags={post.data.tags}
+      />
+    ))}
+  </div>
+
+  <Sidebar slot="sidebar" />
+</BaseLayout>

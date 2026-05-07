@@ -9,15 +9,20 @@ export const SITE = {
   launchDate: '2026-05-07',
   // 简历 PDF 路径（放在 public/ 下）
   resumePdf: '/resume.pdf',
-  // 导航
+  // 简历图片备用：当 PDF 无法内嵌显示时回退展示
+  // 可使用 PDF 第一页的截图（建议宽度 1200-1600px）
+  resumeImage: '/resume.png',
+  // 顶栏导航（标签页面仍然存在，从侧边栏的「热门标签」进入）
   nav: [
     { label: '首页', href: '/' },
     { label: '文章', href: '/posts/' },
     { label: '研究', href: '/research/' },
-    { label: '标签', href: '/tags/' },
     { label: '简介', href: '/profile/' },
     { label: '关于', href: '/about/' },
   ],
+  // 文章分类：按此顺序在文章列表页显示分类筛选
+  // 文章 frontmatter 中 category 不在此列表中的会归入「其他」
+  categories: ['技术', '生活', '思考'] as readonly string[],
   // 社交链接（留空则不显示）
   social: {
     github: 'https://github.com/yourname',
@@ -33,7 +38,6 @@ export const SITE = {
     popularTags: true,
     stats: true,
     // 是否启用「不蒜子」匿名访问统计（无需注册，加载其 JS 即可）
-    // 关闭后侧边栏「站点」卡片将只显示文章数和标签数
     busuanzi: true,
   },
 } as const;

@@ -1,6 +1,7 @@
 ---
 import { SITE } from '../consts';
 import ThemeToggle from './ThemeToggle.astro';
+import Search from './Search.astro';
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) => {
@@ -22,7 +23,10 @@ const isActive = (href: string) => {
       ))}
     </nav>
 
-    <ThemeToggle />
+    <div class="header-actions">
+      <Search />
+      <ThemeToggle />
+    </div>
   </div>
 </header>
 
@@ -74,8 +78,19 @@ const isActive = (href: string) => {
     font-weight: 600;
   }
 
-  @media (max-width: 540px) {
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 720px) {
     .header-inner { gap: 0.5rem; }
     .nav-link { padding: 0.3rem 0.5rem; font-size: 0.9rem; }
+  }
+  @media (max-width: 540px) {
+    /* 极窄屏：隐藏部分导航以让搜索/主题按钮显示 */
+    .nav { gap: 0; }
+    .nav-link { padding: 0.3rem 0.4rem; font-size: 0.85rem; }
   }
 </style>

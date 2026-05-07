@@ -19,6 +19,7 @@ const tags = [...tagMap.entries()]
         </a>
       ))}
     </div>
+    <a href="/tags/" class="see-all subtle">查看全部 →</a>
   </SidebarCard>
 )}
 
@@ -50,5 +51,16 @@ const tags = [...tagMap.entries()]
     color: var(--text-subtle);
     font-family: var(--font-mono);
     font-size: 0.72rem;
+  }
+  .see-all {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .see-all:hover {
+    color: var(--accent);
+    text-decoration: none;
   }
 </style>
