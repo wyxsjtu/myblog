@@ -5,12 +5,17 @@ export const SITE = {
   bio: '一句话介绍自己。可以是身份、兴趣，或者正在做的事。',
   // 学术 / 工作所属机构
   school: '上海交通大学',
-  // 所在城市（可留空）
-  location: '上海',
+  // 所在城市/地区（多个用 · 分隔即可）
+  location: '北京 · 上海',
   url: 'https://example.com',
   locale: 'zh-CN',
   // 建站日期（保留：将来可能在「关于」页用到）
   launchDate: '2026-05-07',
+  // 内容许可：会显示在底栏
+  license: {
+    name: 'CC BY-NC-SA 4.0',
+    href: 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh',
+  },
   // 简历 PDF 路径（放在 public/ 下）
   resumePdf: '/resume.pdf',
   // 简历图片备用：当 PDF 无法内嵌显示时回退展示

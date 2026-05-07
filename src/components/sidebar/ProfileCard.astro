@@ -9,82 +9,93 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
   <div class="profile-inner">
     <div class="avatar" aria-hidden="true">{initial}</div>
 
-    <div class="profile-text">
-      <p class="name">{SITE.author}</p>
-      <p class="bio muted">{SITE.bio}</p>
-    </div>
+    <div class="profile-right">
+      <div class="profile-text">
+        <p class="name">{SITE.author}</p>
+        {SITE.bio && <p class="bio muted">{SITE.bio}</p>}
+      </div>
 
-    {(SITE.school || SITE.location) && (
-      <div class="meta-info">
-        {SITE.school && (
-          <div class="meta-row" title="所在机构">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-            </svg>
-            <span>{SITE.school}</span>
-          </div>
+      {(SITE.school || SITE.location) && (
+        <div class="meta-info">
+          {SITE.school && (
+            <div class="meta-row" title="所在机构">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+              <span>{SITE.school}</span>
+            </div>
+          )}
+          {SITE.location && (
+            <div class="meta-row" title="所在地区">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>{SITE.location}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div class="links">
+        {SITE.social.github && (
+          <a href={SITE.social.github} target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.1-.4-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          </a>
         )}
-        {SITE.location && (
-          <div class="meta-row" title="所在城市">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
+        {SITE.social.email && (
+          <button
+            type="button"
+            class="copy-btn"
+            data-copy={SITE.social.email}
+            data-toast={`已复制邮箱：${SITE.social.email}`}
+            aria-label="Email"
+            title={`${SITE.social.email}（点击复制）`}
+          >
+            <svg class="default-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="m3 7 9 6 9-6"/>
             </svg>
-            <span>{SITE.location}</span>
-          </div>
+            <svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
+        )}
+        {SITE.social.wechat && (
+          <button
+            type="button"
+            class="copy-btn"
+            data-copy={SITE.social.wechat}
+            data-toast={`已复制微信号：${SITE.social.wechat}`}
+            aria-label="微信"
+            title={`微信: ${SITE.social.wechat}（点击复制）`}
+          >
+            <svg class="default-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.08 1.13 3.92 2.88 5.09L4 18.5l3.06-1.78c.78.18 1.6.28 2.44.28.27 0 .54-.01.81-.04C9.45 16.34 9.27 15.7 9.27 15c0-3.03 2.85-5.5 6.36-5.5.42 0 .82.04 1.21.11C16.5 6.45 13.34 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM22 15c0-2.76-2.69-5-6-5s-6 2.24-6 5 2.69 5 6 5c.65 0 1.27-.08 1.86-.24L20.5 21l-.69-2.04C20.99 18.04 22 16.6 22 15zm-8-1a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm4 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/>
+            </svg>
+            <svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
         )}
       </div>
-    )}
-
-    <div class="links">
-      {SITE.social.github && (
-        <a href={SITE.social.github} target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.1-.4-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
-        </a>
-      )}
-      {SITE.social.email && (
-        <a href={`mailto:${SITE.social.email}`} aria-label="Email" title={SITE.social.email}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-        </a>
-      )}
-      {SITE.social.wechat && (
-        <button
-          type="button"
-          class="wechat-btn"
-          data-wechat={SITE.social.wechat}
-          aria-label="微信"
-          title={`微信: ${SITE.social.wechat}（点击复制）`}
-        >
-          <svg class="wechat-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.08 1.13 3.92 2.88 5.09L4 18.5l3.06-1.78c.78.18 1.6.28 2.44.28.27 0 .54-.01.81-.04C9.45 16.34 9.27 15.7 9.27 15c0-3.03 2.85-5.5 6.36-5.5.42 0 .82.04 1.21.11C16.5 6.45 13.34 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM22 15c0-2.76-2.69-5-6-5s-6 2.24-6 5 2.69 5 6 5c.65 0 1.27-.08 1.86-.24L20.5 21l-.69-2.04C20.99 18.04 22 16.6 22 15zm-8-1a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm4 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/>
-          </svg>
-          <svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </button>
-      )}
-      {SITE.social.twitter && (
-        <a href={SITE.social.twitter} target="_blank" rel="noopener" aria-label="Twitter / X" title="Twitter / X">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-      )}
     </div>
   </div>
 </SidebarCard>
 
 <style>
+  /* 头像左侧、其余内容右侧的水平布局 */
   .profile-inner {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.6rem;
-    padding: 0.4rem 0 0.25rem;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.3rem 0 0.15rem;
   }
   .avatar {
-    width: 96px;
-    height: 96px;
+    flex: 0 0 auto;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--accent-hover));
     color: white;
@@ -92,52 +103,63 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     letter-spacing: -0.02em;
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.10), var(--shadow);
-    margin-bottom: 0.25rem;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.12), var(--shadow);
   }
+
+  .profile-right {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .profile-text { display: flex; flex-direction: column; gap: 0.15rem; }
   .name {
     margin: 0;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1rem;
+    line-height: 1.3;
   }
   .bio {
     margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.55;
+    font-size: 0.78rem;
+    line-height: 1.5;
   }
 
   .meta-info {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.45rem 0;
-    margin: 0.1rem 0 0.2rem;
-    border-top: 1px solid var(--border-subtle);
-    border-bottom: 1px solid var(--border-subtle);
+    gap: 0.2rem;
   }
   .meta-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.82rem;
+    gap: 0.35rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
+    min-width: 0;
   }
   .meta-row svg { color: var(--text-subtle); flex: 0 0 auto; }
+  .meta-row span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   .links {
     display: flex;
     gap: 0.4rem;
-    margin-top: 0.3rem;
+    margin-top: 0.1rem;
   }
   .links a,
   .links button {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -156,37 +178,36 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     text-decoration: none;
   }
 
-  /* WeChat 按钮：默认显示 wechat 图标，点击复制后切换为对勾 */
-  .wechat-btn .copied-icon { display: none; }
-  .wechat-btn.copied {
+  /* copy-btn：默认显示 default-icon，点击复制后切换为对勾 1.5s */
+  .copy-btn .copied-icon { display: none; }
+  .copy-btn.copied {
     color: #16a34a;
     border-color: #16a34a;
   }
-  :root[data-theme='dark'] .wechat-btn.copied {
+  :root[data-theme='dark'] .copy-btn.copied {
     color: #4ade80;
     border-color: #4ade80;
   }
-  .wechat-btn.copied .wechat-icon { display: none; }
-  .wechat-btn.copied .copied-icon { display: block; }
+  .copy-btn.copied .default-icon { display: none; }
+  .copy-btn.copied .copied-icon { display: block; }
 </style>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.wechat-btn').forEach((btn) => {
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      const id = btn.dataset.wechat;
-      if (!id) return;
-      const originalTitle = btn.getAttribute('title') ?? '';
+      const text = btn.dataset.copy;
+      const toastMsg = btn.dataset.toast || '已复制';
+      if (!text) return;
       try {
-        await navigator.clipboard.writeText(id);
+        await navigator.clipboard.writeText(text);
         btn.classList.add('copied');
-        btn.setAttribute('title', `已复制: ${id}`);
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.setAttribute('title', originalTitle);
-        }, 1500);
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+        // 触发全站 toast
+        const fn = (window as any).showToast;
+        if (typeof fn === 'function') fn(toastMsg);
       } catch (e) {
-        // 剪贴板不可用时回退：用 prompt 让用户自己复制
-        window.prompt('请手动复制微信号：', id);
+        // 剪贴板不可用（HTTP / 旧浏览器）：回退到 prompt 让用户手动复制
+        window.prompt('请手动复制：', text);
       }
     });
   });

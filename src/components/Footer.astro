@@ -7,8 +7,18 @@ const year = new Date().getFullYear();
   <div class="container footer-inner">
     <p class="footer-left muted">
       &copy; {year} {SITE.author}
-      {SITE.school && <span class="sep"> · </span>}
-      {SITE.school && <span class="affil">{SITE.school}</span>}
+      {SITE.license && (
+        <>
+          <span class="sep"> · </span>
+          <a
+            class="license"
+            href={SITE.license.href}
+            target="_blank"
+            rel="noopener license"
+            title="许可协议"
+          >{SITE.license.name}</a>
+        </>
+      )}
     </p>
     <p class="footer-right subtle">
       Built with <a href="https://astro.build/">Astro</a> on Cloudflare Pages
@@ -42,9 +52,18 @@ const year = new Date().getFullYear();
   .footer-inner a:hover { color: var(--accent); }
 
   .sep { color: var(--text-subtle); }
-  .affil { color: var(--text-muted); }
+  .license {
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--text-subtle);
+    transition: color var(--transition), border-color var(--transition);
+  }
+  .license:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    text-decoration: none;
+  }
 
-  /* 窄屏只保留左侧版权信息 */
   @media (max-width: 640px) {
     .footer-right { display: none; }
     .footer-left { font-size: 0.82rem; }
