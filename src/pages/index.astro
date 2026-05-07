@@ -1,28 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import Sidebar from '../components/sidebar/Sidebar.astro';
 import { SITE } from '../consts';
 import { getAllPosts } from '../utils/posts';
 
 const posts = (await getAllPosts()).slice(0, 5);
 ---
 
-<BaseLayout>
+<BaseLayout withSidebar={true}>
   <section class="hero">
     <h1 class="hero-title">{SITE.title}</h1>
     <p class="hero-desc muted">{SITE.description}</p>
-    <div class="hero-links">
-      {SITE.social.github && (
-        <a href={SITE.social.github} target="_blank" rel="noopener">GitHub</a>
-      )}
-      {SITE.social.email && (
-        <a href={`mailto:${SITE.social.email}`}>Email</a>
-      )}
-      {SITE.social.twitter && (
-        <a href={SITE.social.twitter} target="_blank" rel="noopener">Twitter</a>
-      )}
-      <a href="/rss.xml">RSS</a>
-    </div>
   </section>
 
   <section class="recent">
@@ -46,34 +35,34 @@ const posts = (await getAllPosts()).slice(0, 5);
       </div>
     )}
   </section>
+
+  <Sidebar slot="sidebar" />
 </BaseLayout>
 
 <style>
   .hero {
-    padding: 2rem 0 3rem;
+    padding: 1.5rem 0 2.5rem;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   .hero-title {
     font-size: 2.25rem;
     margin: 0 0 0.5rem;
     letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .hero-desc {
-    margin: 0 0 1rem;
+    margin: 0;
     font-size: 1.05rem;
-  }
-  .hero-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    font-size: 0.95rem;
   }
   .recent-header {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin: 2rem 0 0.5rem;
+    margin: 1.75rem 0 0.5rem;
   }
   .recent-header h2 {
     margin: 0;

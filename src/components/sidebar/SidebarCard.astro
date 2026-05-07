@@ -1,0 +1,40 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+const { title, class: className } = Astro.props;
+---
+
+<section class:list={['sidebar-card', className]}>
+  {title && <h3 class="card-title">{title}</h3>}
+  <div class="card-body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .sidebar-card {
+    background: var(--bg-elevated-translucent);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+    backdrop-filter: saturate(180%) blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    transition: border-color var(--transition);
+  }
+  .sidebar-card:hover {
+    border-color: var(--text-subtle);
+  }
+  .card-title {
+    margin: 0 0 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .card-body {
+    font-size: 0.92rem;
+  }
+</style>

@@ -10,6 +10,8 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   publishDate?: Date;
+  // 是否启用侧边栏布局（默认 false）
+  withSidebar?: boolean;
 }
 
 const {
@@ -18,6 +20,7 @@ const {
   image,
   type = 'website',
   publishDate,
+  withSidebar = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
@@ -83,10 +86,38 @@ const ogImage = image ? new URL(image, Astro.site ?? SITE.url).toString() : unde
   <body>
     <Header />
     <main>
-      <div class="container">
-        <slot />
+      <div class:list={['container', { wide: withSidebar }]}>
+        {withSidebar ? (
+          <div class="layout-grid">
+            <div class="layout-main"><slot /></div>
+            <slot name="sidebar" />
+          </div>
+        ) : (
+          <slot />
+        )}
       </div>
     </main>
     <Footer />
+
+    <style>
+      .container.wide {
+        max-width: 1080px;
+      }
+      .layout-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 3rem;
+        align-items: start;
+      }
+      .layout-main {
+        min-width: 0;
+      }
+      @media (max-width: 1024px) {
+        .layout-grid {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+      }
+    </style>
   </body>
 </html>

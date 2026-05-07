@@ -2,6 +2,13 @@
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import TagList from '../components/TagList.astro';
+import Sidebar from '../components/sidebar/Sidebar.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   title: string;
@@ -10,9 +17,18 @@ interface Props {
   updatedDate?: Date;
   tags?: string[];
   cover?: string;
+  headings?: Heading[];
 }
 
-const { title, description, pubDate, updatedDate, tags = [], cover } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags = [],
+  cover,
+  headings = [],
+} = Astro.props;
 ---
 
 <BaseLayout
@@ -21,6 +37,7 @@ const { title, description, pubDate, updatedDate, tags = [], cover } = Astro.pro
   image={cover}
   type="article"
   publishDate={pubDate}
+  withSidebar={true}
 >
   <article class="post">
     <header class="post-header">
@@ -46,6 +63,8 @@ const { title, description, pubDate, updatedDate, tags = [], cover } = Astro.pro
       <a href="/posts/" class="back-link">← 返回文章列表</a>
     </footer>
   </article>
+
+  <Sidebar slot="sidebar" headings={headings} />
 </BaseLayout>
 
 <style>
@@ -78,7 +97,8 @@ const { title, description, pubDate, updatedDate, tags = [], cover } = Astro.pro
     margin-top: 1.5rem;
     border-radius: var(--radius);
   }
-  .post-content :global(h2) { margin-top: 2.5rem; }
+  .post-content :global(h2) { margin-top: 2.5rem; scroll-margin-top: 80px; }
+  .post-content :global(h3) { scroll-margin-top: 80px; }
   .post-footer {
     margin-top: 4rem;
     padding-top: 1.5rem;

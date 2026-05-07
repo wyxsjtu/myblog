@@ -1,0 +1,72 @@
+---
+import SidebarCard from './SidebarCard.astro';
+import { getAllPosts } from '../../utils/posts';
+
+const posts = (await getAllPosts()).slice(0, 5);
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' });
+---
+
+{posts.length > 0 && (
+  <SidebarCard title="近期文章">
+    <ol class="recent-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/posts/${post.id}/`} class="recent-link">
+            <span class="recent-title">{post.data.title}</span>
+            <time class="recent-date subtle" datetime={post.data.pubDate.toISOString()}>
+              {fmt(post.data.pubDate)}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </SidebarCard>
+)}
+
+<style>
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: rp;
+  }
+  .recent-list li {
+    counter-increment: rp;
+    margin: 0;
+    border-bottom: 1px dashed var(--border-subtle);
+  }
+  .recent-list li:last-child { border-bottom: 0; }
+  .recent-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .recent-link::before {
+    content: counter(rp, decimal-leading-zero);
+    color: var(--text-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    flex: 0 0 auto;
+  }
+  .recent-link:hover {
+    text-decoration: none;
+    color: var(--accent);
+  }
+  .recent-title {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.88rem;
+  }
+  .recent-date {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { SITE } from '../../consts';
+import SidebarCard from './SidebarCard.astro';
+
+const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
+---
+
+<SidebarCard class="profile">
+  <div class="profile-inner">
+    <div class="avatar" aria-hidden="true">{initial}</div>
+    <div class="profile-text">
+      <p class="name">{SITE.author}</p>
+      <p class="bio muted">{SITE.bio}</p>
+    </div>
+    <div class="links">
+      {SITE.social.github && (
+        <a href={SITE.social.github} target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.1-.4-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        </a>
+      )}
+      {SITE.social.email && (
+        <a href={`mailto:${SITE.social.email}`} aria-label="Email" title="Email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      )}
+      {SITE.social.twitter && (
+        <a href={SITE.social.twitter} target="_blank" rel="noopener" aria-label="Twitter / X" title="Twitter / X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      )}
+      <a href="/rss.xml" aria-label="RSS" title="RSS">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+      </a>
+    </div>
+  </div>
+</SidebarCard>
+
+<style>
+  .profile-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    box-shadow: var(--shadow);
+  }
+  .name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .bio {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+  .links {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+  }
+  .links a {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+  }
+  .links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+    text-decoration: none;
+  }
+</style>

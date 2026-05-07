@@ -14,7 +14,7 @@ export const getStaticPaths = (async () => {
 
 interface Props { post: Post }
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
 <PostLayout
@@ -24,6 +24,7 @@ const { Content } = await render(post);
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
   cover={post.data.cover}
+  headings={headings}
 >
   <Content />
 </PostLayout>

@@ -1,0 +1,100 @@
+---
+import SidebarCard from './SidebarCard.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+// 只取 h2 / h3，避免太杂
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 0 && (
+  <SidebarCard title="目录">
+    <nav class="toc" aria-label="文章目录">
+      <ul>
+        {items.map((h) => (
+          <li class:list={[`depth-${h.depth}`]}>
+            <a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </SidebarCard>
+)}
+
+<style>
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .toc li {
+    margin: 0;
+    line-height: 1.4;
+  }
+  .toc li.depth-3 { padding-left: 1rem; }
+  .toc a {
+    display: block;
+    padding: 0.3rem 0.6rem;
+    margin-left: -0.6rem;
+    border-left: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    text-decoration: none;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  .toc a:hover {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .toc a.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  // 滚动监听：高亮当前所在小节
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+  if (links.length > 0) {
+    const map = new Map<string, HTMLAnchorElement>();
+    const targets: Element[] = [];
+    links.forEach((link) => {
+      const slug = link.dataset.tocLink;
+      if (!slug) return;
+      map.set(slug, link);
+      const el = document.getElementById(slug);
+      if (el) targets.push(el);
+    });
+
+    let activeSlug: string | null = null;
+    const setActive = (slug: string | null) => {
+      if (slug === activeSlug) return;
+      activeSlug = slug;
+      links.forEach((l) => l.classList.toggle('active', l.dataset.tocLink === slug));
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 找到当前最靠上的可见标题
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px', threshold: [0, 1] },
+    );
+    targets.forEach((t) => observer.observe(t));
+  }
+</script>

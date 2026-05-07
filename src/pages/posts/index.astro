@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import Sidebar from '../../components/sidebar/Sidebar.astro';
 import { SITE } from '../../consts';
 import { getAllPosts } from '../../utils/posts';
 
@@ -12,7 +13,7 @@ const lastPage = Math.max(1, Math.ceil(posts.length / pageSize));
 const nextUrl = posts.length > pageSize ? '/posts/page/2/' : undefined;
 ---
 
-<BaseLayout title="文章" description="所有文章">
+<BaseLayout title="文章" description="所有文章" withSidebar={true}>
   <h1>文章</h1>
   <p class="muted">共 {posts.length} 篇</p>
 
@@ -33,4 +34,6 @@ const nextUrl = posts.length > pageSize ? '/posts/page/2/' : undefined;
     current={1}
     total={lastPage}
   />
+
+  <Sidebar slot="sidebar" />
 </BaseLayout>

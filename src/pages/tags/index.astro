@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/sidebar/Sidebar.astro';
 import { getAllTags, slugifyTag } from '../../utils/posts';
 
 const tagMap = await getAllTags();
@@ -8,7 +9,7 @@ const tags = [...tagMap.entries()]
   .sort((a, b) => b.count - a.count);
 ---
 
-<BaseLayout title="标签" description="按标签浏览所有文章">
+<BaseLayout title="标签" description="按标签浏览所有文章" withSidebar={true}>
   <h1>标签</h1>
   <p class="muted">共 {tags.length} 个标签</p>
 
@@ -26,6 +27,8 @@ const tags = [...tagMap.entries()]
       ))}
     </ul>
   )}
+
+  <Sidebar slot="sidebar" />
 </BaseLayout>
 
 <style>

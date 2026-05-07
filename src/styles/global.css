@@ -15,16 +15,21 @@
   color-scheme: light;
   --bg: #fafafa;
   --bg-elevated: #ffffff;
+  --bg-elevated-translucent: rgb(255 255 255 / 0.7);
   --bg-code: #f4f4f5;
   --text: #18181b;
   --text-muted: #71717a;
   --text-subtle: #a1a1aa;
   --border: #e4e4e7;
+  --border-subtle: #ececef;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --tag-bg: #eef2ff;
   --tag-text: #4338ca;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.03);
+  --dot: rgb(0 0 0 / 0.07);
+  --halo-1: rgb(37 99 235 / 0.10);
+  --halo-2: rgb(168 85 247 / 0.06);
 }
 
 /* ---------- dark theme ---------- */
@@ -32,16 +37,21 @@
   color-scheme: dark;
   --bg: #0a0a0a;
   --bg-elevated: #141414;
+  --bg-elevated-translucent: rgb(20 20 20 / 0.7);
   --bg-code: #1a1a1a;
   --text: #f4f4f5;
   --text-muted: #a1a1aa;
   --text-subtle: #71717a;
   --border: #27272a;
+  --border-subtle: #1f1f22;
   --accent: #60a5fa;
   --accent-hover: #93c5fd;
   --tag-bg: #1e1b4b;
   --tag-text: #c7d2fe;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.3), 0 1px 2px rgb(0 0 0 / 0.2);
+  --dot: rgb(255 255 255 / 0.07);
+  --halo-1: rgb(96 165 250 / 0.12);
+  --halo-2: rgb(192 132 252 / 0.08);
 }
 
 /* ---------- reset ---------- */
@@ -61,11 +71,35 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.7;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-attachment: fixed;
   color: var(--text);
-  transition: background var(--transition), color var(--transition);
+  transition: background-color var(--transition), color var(--transition);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 顶部光晕：固定定位，不随滚动消失，始终在内容下方 */
+body::before {
+  content: '';
+  position: fixed;
+  top: -360px;
+  left: 50%;
+  width: min(1400px, 140vw);
+  height: 720px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(60% 50% at 35% 50%, var(--halo-1), transparent 70%),
+    radial-gradient(50% 40% at 70% 50%, var(--halo-2), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.9;
+  transition: opacity var(--transition);
 }
 
 a {
