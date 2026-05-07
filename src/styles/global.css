@@ -208,8 +208,9 @@ th {
 }
 
 main {
-  min-height: calc(100vh - 200px);
-  padding: 2rem 0 4rem;
+  /* 底栏 fixed，给 main 留出底部空间避免内容被遮 */
+  min-height: calc(100vh - 60px - 50px);
+  padding: 2rem 0 5rem;
 }
 
 /* ---------- utilities ---------- */

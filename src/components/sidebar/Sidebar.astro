@@ -38,10 +38,9 @@ const cfg = SITE.sidebar;
     position: sticky;
     top: 80px;
     align-self: start;
-    /* 防止内容超过视口高度时无法滚动 */
-    max-height: calc(100vh - 90px);
+    /* 100vh - 顶栏 80 - 底栏 ~50 - 余量 = 留出可见空间 */
+    max-height: calc(100vh - 150px);
     overflow-y: auto;
-    /* 隐藏滚动条但保留滚动 */
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
     padding-right: 4px;

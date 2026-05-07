@@ -45,8 +45,8 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     padding: 0.25rem 0;
   }
   .avatar {
-    width: 56px;
-    height: 56px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--accent-hover));
     color: white;
@@ -54,9 +54,11 @@ const initial = SITE.author.trim().charAt(0).toUpperCase() || '·';
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 2rem;
     letter-spacing: -0.02em;
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.10), var(--shadow);
+    /* 头像下方留点呼吸 */
+    margin-bottom: 0.15rem;
   }
   .name {
     margin: 0;

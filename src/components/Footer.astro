@@ -5,23 +5,45 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p class="muted">
+    <p class="footer-left muted">
       &copy; {year} {SITE.author} ·
       <a href="/rss.xml">RSS</a> ·
       <a href="/sitemap-index.xml">Sitemap</a>
     </p>
-    <p class="subtle">
-      Built with <a href="https://astro.build/">Astro</a>, hosted on Cloudflare Pages.
+    <p class="footer-right subtle">
+      Built with <a href="https://astro.build/">Astro</a> on Cloudflare Pages
     </p>
   </div>
 </footer>
 
 <style>
   .site-footer {
+    /* 固定在视口底部，始终可见 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
     border-top: 1px solid var(--border);
-    padding: 2rem 0;
-    margin-top: 4rem;
-    text-align: center;
+    background: var(--bg-elevated-translucent);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+    padding: 0.45rem 0;
+    font-size: 0.78rem;
   }
-  .footer-inner p { margin: 0.25rem 0; }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .footer-inner p { margin: 0; }
+  .footer-inner a { color: inherit; }
+  .footer-inner a:hover { color: var(--accent); }
+
+  /* 窄屏只保留左侧版权信息，避免一行塞不下 */
+  @media (max-width: 640px) {
+    .footer-right { display: none; }
+    .footer-left { font-size: 0.75rem; }
+  }
 </style>
