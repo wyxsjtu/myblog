@@ -28,6 +28,7 @@ const nextUrl = posts.length > pageSize ? '/posts/page/2/' : undefined;
         title={post.data.title}
         description={post.data.description}
         pubDate={post.data.pubDate}
+        category={post.data.category}
         tags={post.data.tags}
       />
     ))}

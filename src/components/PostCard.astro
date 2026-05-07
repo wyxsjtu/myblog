@@ -7,10 +7,11 @@ interface Props {
   title: string;
   description?: string;
   pubDate: Date;
+  category?: string;
   tags?: string[];
 }
 
-const { href, title, description, pubDate, tags = [] } = Astro.props;
+const { href, title, description, pubDate, category, tags = [] } = Astro.props;
 ---
 
 <article class="post-card">
@@ -19,6 +20,9 @@ const { href, title, description, pubDate, tags = [] } = Astro.props;
     {description && <p class="post-desc muted">{description}</p>}
   </a>
   <div class="post-meta">
+    {category && (
+      <span class:list={['post-category', `cat-${category}`]}>{category}</span>
+    )}
     <FormattedDate date={pubDate} />
     {tags.length > 0 && <span class="dot">·</span>}
     <TagList tags={tags} />
@@ -58,4 +62,47 @@ const { href, title, description, pubDate, tags = [] } = Astro.props;
     font-size: 0.85rem;
   }
   .dot { color: var(--text-subtle); }
+
+  /* 分类徽标：极简风，不同分类不同色相 */
+  .post-category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  /* 默认色：跟随主题主色 */
+  .post-category {
+    color: var(--accent);
+    background: var(--tag-bg);
+  }
+  /* 通过 cat-* 给各分类配独立色相，命中不到的回退到默认色 */
+  .cat-技术 {
+    color: #2563eb;
+    background: rgb(37 99 235 / 0.10);
+  }
+  :root[data-theme='dark'] .cat-技术 {
+    color: #60a5fa;
+    background: rgb(96 165 250 / 0.14);
+  }
+  .cat-生活 {
+    color: #db2777;
+    background: rgb(219 39 119 / 0.10);
+  }
+  :root[data-theme='dark'] .cat-生活 {
+    color: #f472b6;
+    background: rgb(244 114 182 / 0.14);
+  }
+  .cat-思考 {
+    color: #d97706;
+    background: rgb(217 119 6 / 0.10);
+  }
+  :root[data-theme='dark'] .cat-思考 {
+    color: #fbbf24;
+    background: rgb(251 191 36 / 0.14);
+  }
 </style>

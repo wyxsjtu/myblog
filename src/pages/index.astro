@@ -29,6 +29,7 @@ const posts = (await getAllPosts()).slice(0, 5);
             title={post.data.title}
             description={post.data.description}
             pubDate={post.data.pubDate}
+            category={post.data.category}
             tags={post.data.tags}
           />
         ))}

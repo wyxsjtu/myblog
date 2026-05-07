@@ -27,13 +27,13 @@
   --tag-bg: #eef2ff;
   --tag-text: #4338ca;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.03);
-  /* 点阵颜色稍微加深一点，浅色背景上更可见 */
   --dot: rgb(0 0 0 / 0.10);
-  /* 双色光晕：左蓝右紫，opacity 大幅提升 */
-  --halo-1: rgb(56 132 255 / 0.30);
-  --halo-2: rgb(192 100 255 / 0.22);
-  /* 第二组光晕：底部冷色，制造深度感 */
-  --halo-3: rgb(20 184 166 / 0.16);
+  /* 五个动态光团颜色（浅色模式） */
+  --blob-blue:   rgb(56 132 255 / 0.32);
+  --blob-purple: rgb(192 100 255 / 0.26);
+  --blob-teal:   rgb(20 184 200 / 0.24);
+  --blob-pink:   rgb(244 114 182 / 0.24);
+  --blob-amber:  rgb(245 158 11 / 0.20);
 }
 
 /* ---------- dark theme ---------- */
@@ -54,9 +54,12 @@
   --tag-text: #c7d2fe;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.3), 0 1px 2px rgb(0 0 0 / 0.2);
   --dot: rgb(255 255 255 / 0.08);
-  --halo-1: rgb(96 165 250 / 0.22);
-  --halo-2: rgb(192 132 252 / 0.18);
-  --halo-3: rgb(34 211 238 / 0.10);
+  /* 深色模式下的光团颜色 */
+  --blob-blue:   rgb(96 165 250 / 0.22);
+  --blob-purple: rgb(192 132 252 / 0.20);
+  --blob-teal:   rgb(34 211 238 / 0.16);
+  --blob-pink:   rgb(244 114 182 / 0.16);
+  --blob-amber:  rgb(251 191 36 / 0.14);
 }
 
 /* ---------- reset ---------- */
@@ -88,38 +91,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 顶部光晕：固定定位，不随滚动消失，始终在内容下方 */
-body::before {
-  content: '';
-  position: fixed;
-  top: -200px;
-  left: 50%;
-  width: min(1600px, 160vw);
-  height: 800px;
-  transform: translateX(-50%);
-  background:
-    radial-gradient(50% 50% at 25% 40%, var(--halo-1), transparent 65%),
-    radial-gradient(50% 50% at 75% 45%, var(--halo-2), transparent 65%);
-  filter: blur(28px);
-  pointer-events: none;
-  z-index: -1;
-  transition: opacity var(--transition);
-}
-
-/* 底部冷色光晕：制造纵深，避免长页面下方过于单调 */
-body::after {
-  content: '';
-  position: fixed;
-  bottom: -240px;
-  right: -10%;
-  width: min(900px, 90vw);
-  height: 600px;
-  background: radial-gradient(50% 50% at 50% 50%, var(--halo-3), transparent 70%);
-  filter: blur(36px);
-  pointer-events: none;
-  z-index: -1;
-  transition: opacity var(--transition);
-}
+/* 背景光团动画现在由 <BackgroundBlobs /> 组件渲染 */
 
 a {
   color: var(--accent);

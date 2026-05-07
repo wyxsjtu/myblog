@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { SITE } from '../consts';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BackgroundBlobs from '../components/BackgroundBlobs.astro';
 
 interface Props {
   title?: string;
@@ -84,6 +85,7 @@ const ogImage = image ? new URL(image, Astro.site ?? SITE.url).toString() : unde
     </script>
   </head>
   <body>
+    <BackgroundBlobs />
     <Header />
     <main>
       <div class:list={['container', { wide: withSidebar }]}>

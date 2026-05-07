@@ -15,6 +15,7 @@ interface Props {
   description?: string;
   pubDate: Date;
   updatedDate?: Date;
+  category?: string;
   tags?: string[];
   cover?: string;
   headings?: Heading[];
@@ -25,6 +26,7 @@ const {
   description,
   pubDate,
   updatedDate,
+  category,
   tags = [],
   cover,
   headings = [],
@@ -44,6 +46,12 @@ const {
       <h1 class="post-title">{title}</h1>
       {description && <p class="post-description muted">{description}</p>}
       <div class="post-meta">
+        {category && (
+          <a
+            href={`/posts/category/${encodeURIComponent(category.toLowerCase())}/`}
+            class:list={['post-category', `cat-${category}`]}
+          >{category}</a>
+        )}
         <FormattedDate
           date={pubDate}
           showUpdated={!!updatedDate}
@@ -92,6 +100,43 @@ const {
     font-size: 0.9rem;
   }
   .dot { color: var(--text-subtle); }
+  .post-category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: opacity var(--transition);
+  }
+  .post-category:hover { opacity: 0.8; text-decoration: none; }
+  .cat-技术 {
+    color: #2563eb;
+    background: rgb(37 99 235 / 0.10);
+  }
+  :global(:root[data-theme='dark']) .cat-技术 {
+    color: #60a5fa;
+    background: rgb(96 165 250 / 0.14);
+  }
+  .cat-生活 {
+    color: #db2777;
+    background: rgb(219 39 119 / 0.10);
+  }
+  :global(:root[data-theme='dark']) .cat-生活 {
+    color: #f472b6;
+    background: rgb(244 114 182 / 0.14);
+  }
+  .cat-思考 {
+    color: #d97706;
+    background: rgb(217 119 6 / 0.10);
+  }
+  :global(:root[data-theme='dark']) .cat-思考 {
+    color: #fbbf24;
+    background: rgb(251 191 36 / 0.14);
+  }
   .post-cover {
     width: 100%;
     margin-top: 1.5rem;

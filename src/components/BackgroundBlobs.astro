@@ -1,0 +1,126 @@
+---
+// 5 个动态光晕，分散在视口四角与中心，独立缓慢漂移
+// 仅 transform 参与动画 → 走 GPU，性能可控
+// prefers-reduced-motion: reduce 时停止动画
+---
+
+<div class="bg-blobs" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+  <span class="blob blob-4"></span>
+  <span class="blob blob-5"></span>
+</div>
+
+<style>
+  .bg-blobs {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+    /* 让 transform 不被父级 perspective 干扰 */
+    transform: translateZ(0);
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    will-change: transform;
+    /* 默认 GPU 层 */
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* ---- 5 个光团：位置 + 颜色 + 大小 ---- */
+  .blob-1 {
+    top: -15%;
+    left: -8%;
+    width: 38vw;
+    height: 38vw;
+    max-width: 600px;
+    max-height: 600px;
+    background: var(--blob-blue);
+    animation: drift-1 28s ease-in-out infinite;
+  }
+  .blob-2 {
+    top: -10%;
+    right: -10%;
+    width: 34vw;
+    height: 34vw;
+    max-width: 540px;
+    max-height: 540px;
+    background: var(--blob-purple);
+    animation: drift-2 36s ease-in-out infinite;
+    animation-delay: -6s;
+  }
+  .blob-3 {
+    top: 38%;
+    right: -12%;
+    width: 30vw;
+    height: 30vw;
+    max-width: 500px;
+    max-height: 500px;
+    background: var(--blob-teal);
+    animation: drift-3 42s ease-in-out infinite;
+    animation-delay: -12s;
+  }
+  .blob-4 {
+    bottom: -10%;
+    left: -8%;
+    width: 36vw;
+    height: 36vw;
+    max-width: 580px;
+    max-height: 580px;
+    background: var(--blob-pink);
+    animation: drift-4 32s ease-in-out infinite;
+    animation-delay: -3s;
+  }
+  .blob-5 {
+    top: 30%;
+    left: 30%;
+    width: 28vw;
+    height: 28vw;
+    max-width: 460px;
+    max-height: 460px;
+    background: var(--blob-amber);
+    animation: drift-5 48s ease-in-out infinite;
+    animation-delay: -18s;
+  }
+
+  /* ---- 漂移轨迹：每个光团独立路径，避免同步感 ---- */
+  @keyframes drift-1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(18vw, 22vh, 0) scale(1.15); }
+    66%      { transform: translate3d(-6vw, 48vh, 0) scale(0.9); }
+  }
+  @keyframes drift-2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    25%      { transform: translate3d(-22vw, 18vh, 0) scale(1.2); }
+    50%      { transform: translate3d(-8vw, 50vh, 0) scale(0.85); }
+    75%      { transform: translate3d(8vw, 28vh, 0) scale(1.1); }
+  }
+  @keyframes drift-3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(-25vw, -15vh, 0) scale(1.1); }
+    66%      { transform: translate3d(-12vw, 22vh, 0) scale(0.95); }
+  }
+  @keyframes drift-4 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    25%      { transform: translate3d(20vw, -28vh, 0) scale(0.95); }
+    50%      { transform: translate3d(35vw, -12vh, 0) scale(1.15); }
+    75%      { transform: translate3d(8vw, -20vh, 0) scale(1.05); }
+  }
+  @keyframes drift-5 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    20%      { transform: translate3d(-15vw, 10vh, 0) scale(1.2); }
+    50%      { transform: translate3d(20vw, 20vh, 0) scale(0.85); }
+    80%      { transform: translate3d(10vw, -10vh, 0) scale(1.1); }
+  }
+
+  /* 减动画偏好：停止运动，但保留静态光晕 */
+  @media (prefers-reduced-motion: reduce) {
+    .blob {
+      animation: none !important;
+    }
+  }
+</style>
