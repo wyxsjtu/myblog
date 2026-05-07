@@ -1,0 +1,92 @@
+---
+import '../styles/global.css';
+import { SITE } from '../consts';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image,
+  type = 'website',
+  publishDate,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toString();
+const ogImage = image ? new URL(image, Astro.site ?? SITE.url).toString() : undefined;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- RSS -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.title}
+      href="/rss.xml"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:locale" content={SITE.locale} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {type === 'article' && publishDate && (
+      <meta property="article:published_time" content={publishDate.toISOString()} />
+    )}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- 深色模式预设：在 body 渲染前同步执行，避免闪烁 -->
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved || (prefersDark ? 'dark' : 'light');
+          if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

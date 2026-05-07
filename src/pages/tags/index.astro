@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllTags, slugifyTag } from '../../utils/posts';
+
+const tagMap = await getAllTags();
+const tags = [...tagMap.entries()]
+  .map(([name, posts]) => ({ name, count: posts.length }))
+  .sort((a, b) => b.count - a.count);
+---
+
+<BaseLayout title="标签" description="按标签浏览所有文章">
+  <h1>标签</h1>
+  <p class="muted">共 {tags.length} 个标签</p>
+
+  {tags.length === 0 ? (
+    <p class="muted">暂无标签。</p>
+  ) : (
+    <ul class="tag-cloud">
+      {tags.map((t) => (
+        <li>
+          <a href={`/tags/${slugifyTag(t.name)}/`} class="tag-item">
+            <span class="tag-name">#{t.name}</span>
+            <span class="tag-count subtle">({t.count})</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  .tag-cloud {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-elevated);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  .tag-item:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>

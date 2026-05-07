@@ -1,0 +1,19 @@
+---
+interface Props {
+  date: Date;
+  showUpdated?: boolean;
+  updated?: Date;
+}
+const { date, showUpdated = false, updated } = Astro.props;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<time datetime={date.toISOString()}>{fmt(date)}</time>
+{showUpdated && updated && (
+  <span class="updated muted">（更新于 {fmt(updated)}）</span>
+)}
+
+<style>
+  .updated { font-size: 0.85em; margin-left: 0.25rem; }
+</style>

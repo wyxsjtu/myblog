@@ -1,0 +1,57 @@
+---
+interface Props {
+  prevUrl?: string | undefined;
+  nextUrl?: string | undefined;
+  current: number;
+  total: number;
+}
+const { prevUrl, nextUrl, current, total } = Astro.props;
+---
+
+{total > 1 && (
+  <nav class="pagination" aria-label="分页">
+    {prevUrl ? (
+      <a href={prevUrl} rel="prev">← 上一页</a>
+    ) : (
+      <span class="disabled">← 上一页</span>
+    )}
+    <span class="page-info muted">第 {current} / {total} 页</span>
+    {nextUrl ? (
+      <a href={nextUrl} rel="next">下一页 →</a>
+    ) : (
+      <span class="disabled">下一页 →</span>
+    )}
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3rem 0 1rem;
+    font-size: 0.95rem;
+    gap: 1rem;
+  }
+  .pagination a {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition);
+  }
+  .pagination a:hover {
+    background: var(--bg-elevated);
+    border-color: var(--text-subtle);
+    text-decoration: none;
+  }
+  .disabled {
+    padding: 0.4rem 0.8rem;
+    color: var(--text-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    opacity: 0.5;
+  }
+  .page-info { white-space: nowrap; }
+</style>

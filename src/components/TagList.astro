@@ -1,0 +1,20 @@
+---
+interface Props {
+  tags: string[];
+}
+const { tags } = Astro.props;
+const slugify = (s: string) =>
+  encodeURIComponent(s.toLowerCase().trim().replace(/\s+/g, '-'));
+---
+
+{tags.length > 0 && (
+  <span class="tag-list">
+    {tags.map((t) => (
+      <a href={`/tags/${slugify(t)}/`} class="tag">#{t}</a>
+    ))}
+  </span>
+)}
+
+<style>
+  .tag-list { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; }
+</style>

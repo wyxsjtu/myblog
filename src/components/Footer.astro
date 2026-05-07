@@ -1,0 +1,27 @@
+---
+import { SITE } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="muted">
+      &copy; {year} {SITE.author} ·
+      <a href="/rss.xml">RSS</a> ·
+      <a href="/sitemap-index.xml">Sitemap</a>
+    </p>
+    <p class="subtle">
+      Built with <a href="https://astro.build/">Astro</a>, hosted on Cloudflare Pages.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    text-align: center;
+  }
+  .footer-inner p { margin: 0.25rem 0; }
+</style>

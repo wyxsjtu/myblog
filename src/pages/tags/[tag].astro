@@ -1,0 +1,43 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getAllTags, slugifyTag, type Post } from '../../utils/posts';
+
+export const getStaticPaths = (async () => {
+  const tagMap = await getAllTags();
+  return [...tagMap.entries()].map(([name, posts]) => ({
+    params: { tag: slugifyTag(name) },
+    props: { tagName: name, posts },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  tagName: string;
+  posts: Post[];
+}
+const { tagName, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`#${tagName}`}
+  description={`标签 ${tagName} 下的所有文章`}
+>
+  <p class="muted">
+    <a href="/tags/">← 所有标签</a>
+  </p>
+  <h1>#{tagName}</h1>
+  <p class="muted">{posts.length} 篇文章</p>
+
+  <div class="post-list">
+    {posts.map((post) => (
+      <PostCard
+        href={`/posts/${post.id}/`}
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        tags={post.data.tags}
+      />
+    ))}
+  </div>
+</BaseLayout>

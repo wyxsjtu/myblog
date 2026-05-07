@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import { SITE } from '../../consts';
+import { getAllPosts } from '../../utils/posts';
+
+const posts = await getAllPosts();
+const pageSize = SITE.postsPerPage;
+const data = posts.slice(0, pageSize);
+const lastPage = Math.max(1, Math.ceil(posts.length / pageSize));
+const nextUrl = posts.length > pageSize ? '/posts/page/2/' : undefined;
+---
+
+<BaseLayout title="文章" description="所有文章">
+  <h1>文章</h1>
+  <p class="muted">共 {posts.length} 篇</p>
+
+  <div class="post-list">
+    {data.map((post) => (
+      <PostCard
+        href={`/posts/${post.id}/`}
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        tags={post.data.tags}
+      />
+    ))}
+  </div>
+
+  <Pagination
+    nextUrl={nextUrl}
+    current={1}
+    total={lastPage}
+  />
+</BaseLayout>

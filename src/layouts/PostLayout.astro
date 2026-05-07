@@ -1,0 +1,98 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  cover?: string;
+}
+
+const { title, description, pubDate, updatedDate, tags = [], cover } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={cover}
+  type="article"
+  publishDate={pubDate}
+>
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">{title}</h1>
+      {description && <p class="post-description muted">{description}</p>}
+      <div class="post-meta">
+        <FormattedDate
+          date={pubDate}
+          showUpdated={!!updatedDate}
+          updated={updatedDate}
+        />
+        {tags.length > 0 && <span class="dot">·</span>}
+        <TagList tags={tags} />
+      </div>
+      {cover && <img src={cover} alt={title} class="post-cover" loading="eager" />}
+    </header>
+
+    <div class="post-content">
+      <slot />
+    </div>
+
+    <footer class="post-footer">
+      <a href="/posts/" class="back-link">← 返回文章列表</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-title {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .post-description {
+    font-size: 1.05rem;
+    margin: 0.5rem 0 1rem;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--text-subtle);
+    font-size: 0.9rem;
+  }
+  .dot { color: var(--text-subtle); }
+  .post-cover {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-radius: var(--radius);
+  }
+  .post-content :global(h2) { margin-top: 2.5rem; }
+  .post-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .back-link {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  @media (max-width: 600px) {
+    .post-title { font-size: 1.65rem; }
+  }
+</style>
